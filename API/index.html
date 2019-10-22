@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+	</head>
+	<body>
+		<div id="app">
+			<p>
+				这是个神奇的API
+				<input type="text" name="" v-model="question" id="" value="" placeholder="请输入"/>
+			</p>
+			<p>{{answer}}</p>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var watchApp = new Vue({
+			el: '#app',
+			data: {
+				question: '',
+				answer: '是否是正确的api'
+			},
+			// question发生改变就会触发函数
+			watch: {
+				question: function(newques, oldques) {
+					this.answer = '等待确定...'
+					this. debounceGetAnswer()
+				}
+			},
+			created: function() {
+				this.debounceGetAnswer = _.debounce(this.getAnswer,500)
+			},
+			methods: {
+				getAnswer: function() {
+					if (this.question.indexOf('?') === -1) {
+						this.answer = 'ok'
+						return answer
+					}
+					this.answer = '等待着...'
+					var vm = this
+					axios.get('https://yesno.wtf/api')
+					.then(function (res) {
+						vm.answer = _.capitalize(res.data.answer)
+					})
+					.catch(function (error) {
+						vm.answer = '捕获不到正确的api:' + error
+					})
+				}
+			}
+		})
+	</script>
+</html>
